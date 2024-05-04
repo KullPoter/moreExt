@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            position: relative;
+        }
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+        .list {
+            text-align: center;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #555;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        li button.delete {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #f00;
+            cursor: pointer;
+        }
+        .yet {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 20px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .yet:hover {
+            background-color: #0056b3;
+        }
+        button.delete-all {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #ff0000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button.delete-all:hover {
+            background-color: #cc0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Information about you</h1>
+        <div class="list">
+            <ul></ul>
+        </div>
+        <button class="yet">Show More</button>
+        <button class="delete-all">Delete All</button>
+    </div>
+
+    <script>
+        const massive = [
+            { "text": "Your first achievement" }, 
+            { "text": "Your recent journey" },
+            { "text": "A memorable event" }, 
+            { "text": "Something you learned" },
+            { "text": "Your favorite place" }, 
+            { "text": "A challenging experience" },
+            { "text": "An inspiring story" }, 
+            { "text": "A funny incident" },
+            { "text": "A valuable lesson" }, 
+            { "text": "A dream you have" },
+            { "text": "Your greatest fear" }, 
+            { "text": "A life-changing decision" },
+            { "text": "A proud moment" }, 
+            { "text": "A hobby you enjoy" },
+            { "text": "A goal you achieved" }, 
+            { "text": "A skill you mastered" }
+        ];
+
+        const ul = document.querySelector('.list ul');
+        const btn = document.querySelector('.container button.yet');
+        const deleteAllBtn = document.querySelector('.container button.delete-all');
+        let count = 4;
+
+        btn.addEventListener('click', () => {
+            count += 4;
+            if (count >= massive.length) {
+                alert("No more items to show.");
+                btn.disabled = true;
+            } else {
+                showItems(massive, count);
+            }
+        });
+
+        deleteAllBtn.addEventListener('click', () => {
+            count = 0; // Сбрасываем count до 0
+            ul.innerHTML = ""; // Очищаем содержимое ul
+            btn.disabled = false; // Разблокируем кнопку "Show More"
+        });
+
+        function showItems(arr, num) {
+            ul.innerHTML = "";
+            for (let i = 0; i < num && i < arr.length; i++) {
+                let current = document.createElement('li');
+                current.innerHTML = arr[i].text;
+                let deleteBtn = document.createElement('button');
+                deleteBtn.classList.add('delete');
+                deleteBtn.innerText = 'X';
+                deleteBtn.addEventListener('click', () => {
+                    current.remove();
+                    count -= 1;
+                });
+                current.appendChild(deleteBtn);
+                ul.appendChild(current);
+            }
+        }
+
+        window.onload = () => {
+            showItems(massive, count);
+        };
+    </script>
+</body>
+</html>
